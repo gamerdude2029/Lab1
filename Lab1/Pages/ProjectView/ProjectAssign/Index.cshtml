@@ -1,0 +1,37 @@
+﻿@page
+@model Lab1.Pages.ProjectView.ProjectAssign.IndexModel
+@{
+}
+<h2>Assign a Project</h2>
+
+<form method="post">
+    <label>Select Project:</label>
+    <select class="form-select" id="project">
+        <option value="1">Morpheus</option>
+        <option value="2">Competent</option>
+        <option value="3">Landing</option>
+        <option value="4">CoffeeBean</option>
+        <option value="5">MusicMan</option>
+    </select>
+    <label>Who Is Assigned?</label>
+    <select class="form-select" id="employee">
+        @foreach (var users in Model.EmployeeInfo)
+        {
+            <option>@users.Name</option>
+        }
+    </select>
+
+    <button class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-secondary" onclick="populateForm()">Populate</button>
+    <button class="btn btn-danger">Clear</button>
+</form>
+
+<script>
+    function populateForm() {
+        document.getElementById("project").value = "3"; 
+        let employeeSelect = document.getElementById("employee");
+        if (employeeSelect.options.length > 0) {
+            employeeSelect.selectedIndex = 0; 
+        }
+    }
+</script>

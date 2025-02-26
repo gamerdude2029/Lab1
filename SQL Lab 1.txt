@@ -1,0 +1,184 @@
+﻿CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    Email VARCHAR(255) UNIQUE,
+    Password VARCHAR(255),
+    Role VARCHAR(50)
+);
+
+
+CREATE TABLE Faculty (
+    FacultyID INT PRIMARY KEY,
+    UserID INT UNIQUE,
+    Department VARCHAR(255),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+
+CREATE TABLE GrantOrgAdmin (
+    AdminID INT PRIMARY KEY,
+    UserID INT UNIQUE,
+    OrganizationRole VARCHAR(255),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+
+CREATE TABLE BusinessPartner (
+    BusinessPartnerID INT PRIMARY KEY,
+    Name VARCHAR(255),
+    OrgType VARCHAR(255),
+    PrimaryContact VARCHAR(255),
+    BusinessType VARCHAR(255),
+    StatusFlag VARCHAR(50)
+);
+
+
+CREATE TABLE BusinessPartnerRepresentative (
+    RepID INT PRIMARY KEY,
+    UserID INT UNIQUE,
+    BusinessPartnerID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (BusinessPartnerID) REFERENCES BusinessPartner(BusinessPartnerID)
+);
+
+
+CREATE TABLE Grants (
+    GrantID INT PRIMARY KEY,
+    Title VARCHAR(255),
+    Category VARCHAR(50),
+    FundingAgency VARCHAR(255),
+    SubmissionDate DATE,
+    AwardDate DATE,
+    Amount DECIMAL(15,2),
+    LeadFacultyID INT,
+    Status VARCHAR(50),
+    FOREIGN KEY (LeadFacultyID) REFERENCES Faculty(FacultyID)
+);
+
+
+CREATE TABLE GrantFaculty (
+    GrantID INT,
+    FacultyID INT,
+    PRIMARY KEY (GrantID, FacultyID),
+    FOREIGN KEY (GrantID) REFERENCES Grants(GrantID),
+    FOREIGN KEY (FacultyID) REFERENCES Faculty(FacultyID)
+);
+
+
+CREATE TABLE Project (
+    ProjectID INT PRIMARY KEY,
+    Title VARCHAR(255),
+    DueDate DATE,
+    CreatedByAdminID INT,
+    Status VARCHAR(50),
+    FOREIGN KEY (CreatedByAdminID) REFERENCES GrantOrgAdmin(AdminID)
+);
+
+
+CREATE TABLE Task (
+    TaskID INT PRIMARY KEY,
+    ProjectID INT,
+    AssignedTo INT,
+    Description TEXT,
+    DueDate DATE,
+    Status VARCHAR(255),
+    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID),
+    FOREIGN KEY (AssignedTo) REFERENCES Users(UserID)
+);
+
+
+CREATE TABLE ProjectNotes (
+    NoteID INT PRIMARY KEY,
+    ProjectID INT,
+    AdminID INT,
+    NoteText TEXT,
+    Timestamp TIMESTAMP,
+    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID),
+    FOREIGN KEY (AdminID) REFERENCES GrantOrgAdmin(AdminID)
+);
+
+
+CREATE TABLE MeetingMinutes (
+    MeetingID INT PRIMARY KEY,
+    BusinessPartnerID INT,
+    AdminID INT,
+    Notes TEXT,
+    Timestamp TIMESTAMP,
+    FOREIGN KEY (BusinessPartnerID) REFERENCES BusinessPartner(BusinessPartnerID),
+    FOREIGN KEY (AdminID) REFERENCES GrantOrgAdmin(AdminID)
+);
+
+
+CREATE TABLE InternalMessage (
+    MessageID INT PRIMARY KEY,
+    SenderID INT,
+    ReceiverID INT,
+    MessageText TEXT,
+    Timestamp TIMESTAMP,
+    FOREIGN KEY (SenderID) REFERENCES Users(UserID),
+    FOREIGN KEY (ReceiverID) REFERENCES Users(UserID)
+);
+
+
+CREATE TABLE GrantProjectFunding (
+    ID INT PRIMARY KEY,
+    BusinessPartnerID INT,
+    GrantID INT NULL,
+    ProjectID INT NULL,
+    FOREIGN KEY (BusinessPartnerID) REFERENCES BusinessPartner(BusinessPartnerID),
+    FOREIGN KEY (GrantID) REFERENCES Grants(GrantID),
+    FOREIGN KEY (ProjectID) REFERENCES Project(ProjectID)
+);
+
+
+
+
+
+
+Insert into Users (UserID, Name, Email, Password, Role)
+Values
+(1, 'Johanna', 'johanna@gmail.com', '12345', 'Project Manager'),
+(2, 'Samuel', 'sam@gmail.com', '54321', 'Information Technology Officer'),
+(3, 'Rocky', 'rock@outlook.com', '5678', 'Movie Specialist'),
+(4, 'Jimmy', 'jimmyjohns@gmail.com', 'sandwich', 'Sandwich Expert'),
+(5, 'Campbell', 'campbell@outlook.com', 'singsing', 'Admin')
+;
+
+
+Insert into GrantOrgAdmin (AdminID, UserID, OrganizationRole)
+Values
+(7369, 1, 'Project Manager'),
+(6447, 2, 'Information Technology Officer'),
+(7543, 3, 'Movie Specialist'),
+(8899, 4, 'Sandwich Expert'),
+(2025, 5, 'Admin')
+;
+
+
+Insert into Project (ProjectID, Title, DueDate, CreatedByAdminID, Status)
+Values
+(1, 'Morpheus', '2026-01-12', 7369, 32),
+(2, 'Competent', '2027-02-04', 6447, 19),
+(3, 'Landing', '2025-07-05', 7543, 77),
+(4, 'CoffeeBean', '2025-12-12', 8899, 64),
+(5, 'MusicMan', '2025-05-04', 2025, 91);
+
+
+Insert Into Faculty (FacultyID, UserID, Department)
+Values
+(1234, 1, 'College of Business'),
+(2345, 2, 'Cybersecurity'),
+(3456, 3, 'Filmography'),
+(4567, 4, 'Dining Services'),
+(5678, 5, 'Admissions')
+;
+
+
+Insert into Grants (GrantID, Title, Category, FundingAgency, SubmissionDate, AwardDate, Amount, LeadFacultyID, Status)
+Values
+(1, 'GreatStudent', 'Overall Academic', 'Admissions', '2025-01-11', '2025-05-16', 3000.00, 5678, 'In Progress'),
+(2, 'ItalianSub', 'Food', 'Dining Services', '2025-01-27', '2025-08-17', 1500.00, 4567, 'In Progress'),
+(3, 'CinemaConcept', 'Movies', 'Filmography', '2025-02-07', '2025-9-17', 2000.00, 3456, 'In Progress'),
+(4, 'InfoTech', 'Information Systems', 'Cybersecurity', '2025-02-18', '2025-03-18', 3000.00, 2345, 'In Progress'),
+(5, 'ProjectManagement', 'College of Business', 'Project Management', '2025-02-19', '2025-06-19', 2500.00, 1234, 'In Progress')
+;

@@ -1,0 +1,48 @@
+﻿@page
+@model CreateUserModel
+@{
+	ViewData["Title"] = "Create a User";
+}
+
+<h1>Create a User!</h1>
+
+@{
+	if (ViewData["SuccessMessage"] != null)
+	{
+		<p class="text-success">@ViewData["SuccessMessage"]</p>
+	}
+}
+
+<form asp-page="CreateUser">
+	<input asp-for="NewUser.Name" id="Name" placeholder="Enter Name"/>
+	<span asp-validation-for="NewUser.Name" class="text-danger"></span>
+	<br /> <br />
+	<input asp-for="NewUser.Email" id="email" placeholder="Enter Email" />
+	<span asp-validation-for="NewUser.Email" class="text-danger"></span>
+	<br /> <br />
+	<input asp-for="NewUser.Password" id="password" placeholder="Enter Password" />
+	<span asp-validation-for="NewUser.Password" class="text-danger"></span>
+	<br /><br />
+	<select asp-for="NewUser.Role" id="facultyType" class="form-select">
+		<option value="0">Please Select an Option:</option>
+		<option value="1">Faculty</option>
+		<option value="2">GrantOrg Administrator</option>
+		<option value="3">Business Partner Representative</option>
+		<option value="4">Organizational Administrator</option>
+	</select>
+	<span asp-validation-for="NewUser.Role" class="text-danger"></span>
+	<br /><br />
+	<button class="btn btn-primary">Submit</button>
+	<button type="button" class="btn btn-secondary" onclick="populateForm()">Populate</button>
+	<button class="btn btn-danger">Clear</button>
+</form>
+<script>
+	function populateForm() {
+		document.getElementById("Name").value = "John";
+		document.getElementById("email").value = "john.doe@example.com";
+		document.getElementById("password").value = "password123";
+		document.getElementById("facultyType").value = 1;
+	}
+</script>
+
+<a href="/CreateUser/ViewUsers">View Users</a>
