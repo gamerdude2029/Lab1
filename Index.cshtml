@@ -1,0 +1,28 @@
+﻿@page
+@model IndexModel
+@{
+}
+
+<table class="table table-bordered table-responsive table-hover">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Category</th>
+			<th>Funding Agency</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var grants in Model.GrantInfo)
+		{
+			<tr>
+				<td>@grants.Title</td>
+				<td>@grants.Category</td>
+				<td>@grants.FundingAgency</td>
+				<td>@grants.Status</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<a asp-page="/GrantWork/LogAGrant" class="btn btn-outline-success">Log a Grant</a>
