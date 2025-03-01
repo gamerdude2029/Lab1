@@ -1,23 +1,33 @@
 using Lab1.Pages.DataClasses;
 using Lab1.Pages.DB;
-using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Data.SqlClient;
 
-namespace Lab1.Pages
+namespace Lab1.Pages.GrantWork
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        public List<Grants> GrantInfo { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel()
         {
-            _logger = logger;
+            GrantInfo = new List<Grants>();
         }
-
         public void OnGet()
         {
-
+            SqlDataReader productReader = DBClass.ProductReader();
+            while (productReader.Read())
+            {
+                GrantInfo.Add(new Grants
+                {
+                    Title = productReader["Title"].ToString(),
+                    Category = productReader["Category"].ToString(),
+                    FundingAgency = productReader["FundingAgency"].ToString(),
+                    Status = productReader["Status"].ToString()
+                });
+            }
+            DBClass.Lab1DBConnection.Close();
         }
     }
 }

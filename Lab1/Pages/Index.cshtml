@@ -1,17 +1,28 @@
 ﻿@page
-@model IndexModel //This Code was written by Lloyd Davis and Jeremy Cohen
+@model IndexModel
 @{
-    ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-	<h1 class="display-4">Welcome JMU</h1>
-	<p>This code was written by: Lloyd Davis & Jeremy Cohen</p>
-</div>
+<table class="table table-bordered table-responsive table-hover">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Category</th>
+			<th>Funding Agency</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var grants in Model.GrantInfo)
+		{
+			<tr>
+				<td>@grants.Title</td>
+				<td>@grants.Category</td>
+				<td>@grants.FundingAgency</td>
+				<td>@grants.Status</td>
+			</tr>
+		}
+	</tbody>
+</table>
 
-
-<a class="btn btn-primary" href="/ProjectView">Go to Projects -></a>
-<a class="btn btn-primary" href="/Grant">Go to Grants</a>
-<a class="btn btn-primary" href="/CreateUser">Create a User</a>
-
-
+<a asp-page="/GrantWork/LogAGrant" class="btn btn-outline-success">Log a Grant</a>
