@@ -1,0 +1,31 @@
+﻿@page
+@model Lab1.Pages.IndexModel
+@{
+}
+
+<h2>Login</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<form method="post">
+    <div>
+        <label>Email:</label>
+        <input type="email" asp-for="Email" class="form-control" />
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" asp-for="Password" class="form-control" />
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="CreateUser" class="btn btn-secondary">Create User</a>
+    </div>
+</form>

@@ -1,0 +1,38 @@
+﻿@page
+@model Lab1.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome JMU</h1>
+    <p>This code was written by: Lloyd Davis & Jeremy Cohen</p>
+</div>
+
+@if (ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-success">
+        <p>@Model.UserName was logged in</p>
+    </div>
+}
+
+@if (Model.UserRole == "Admin")
+{
+    <a class="btn btn-primary" href="/ProjectView">Go to Projects -></a>
+    <a class="btn btn-primary" href="/Grant">Go to Grants</a>
+    <a class="btn btn-primary" href="/CreateUser">Create a User</a>
+    <a class="btn btn-primary" href="/Message">Messaging Center</a>
+}
+
+@if (Model.UserRole == "Movie Specialist")
+{
+    <a class="btn btn-primary" href="/CreateUser">Create a User</a>
+}
+
+@if (Model.UserRole == "Information Technology Officer")
+{
+    <a class="btn btn-primary" href="/Grant">Go to Grants</a>
+}
+
+<a class="btn btn-primary" href="/Message">Messaging Center</a>
+<a class="btn btn-danger" href="/index">Log Out</a>
