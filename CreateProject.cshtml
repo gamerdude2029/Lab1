@@ -1,0 +1,22 @@
+﻿@page
+@model Lab1.Pages.ProjectView.CreateProjectModel
+@{
+}
+
+<form asp-page="CreateProject">
+    <input type="text" asp-for="NewProject.Title" id="Title" placeholder="Enter Name" />
+    <span asp-validation-for="NewProject.Title" class="text-danger"></span>
+    <br /> <br />
+    <input type="text" asp-for="NewProject.DueDate" id="DueDate" placeholder="Enter End Date" />
+    <span asp-validation-for="NewProject.DueDate" class="text-danger"></span>
+    <br /><br />
+    <button class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-secondary" onclick="populateForm()">Populate</button>
+    <button class="btn btn-danger">Clear</button>
+</form>
+
+<script>
+    function populateForm() {
+        document.getElementById("Title").value = "Project 1";
+        document.getElementById("DueDate").value = "2021-12-31";
+    }

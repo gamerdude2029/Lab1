@@ -10,25 +10,34 @@ namespace Lab1.Pages
     public class GrantModel : PageModel
     {
         public List<Grants> GrantInfo { get; set; }
+
         [BindProperty]
         public Grants NewGrant { get; set; }
+
         [BindProperty]
         [Required(ErrorMessage = "Please Select One")]
         public int SelectedNumber { get; set; }
-        public String SuccessMessage { get; set; }
+
         [BindProperty]
-        [Required(ErrorMessage = "Agency or Business Reqeuired")]
-        public string AgencyOrBusiness { get; set; }
+        public string? SuccessMessage { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "Agency or Business Required")]
+        public string? AgencyOrBusiness { get; set; }
+
         [BindProperty]
         [Required]
         public DateTime? SubmissionDate { get; set; }
+
         [BindProperty]
         [Required]
         public DateTime? AwardDate { get; set; }
+
         [BindProperty]
         [Required]
         [Range(1, double.MaxValue, ErrorMessage = "Money must be greater than 0.")]
         public int MoneyInvolved { get; set; }
+
         [BindProperty]
         [Required(ErrorMessage = "Lead Faculty Required")]
         public string LeadFaculty { get; set; }
@@ -36,7 +45,9 @@ namespace Lab1.Pages
         public GrantModel()
         {
             GrantInfo = new List<Grants>();
+            NewGrant = new Grants();
         }
+
         public void OnGet()
         {
             SqlDataReader productReader = DBClass.ProductReader();
@@ -46,15 +57,18 @@ namespace Lab1.Pages
                 {
                     Category = productReader["Category"].ToString(),
                     FundingAgency = productReader["FundingAgency"].ToString(),
-
                 });
             }
         }
+
         public IActionResult OnPost()
         {
-            DBClass.InsertGrant(NewGrant);
-            DBClass.Lab1DBConnection.Close();
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
+            DBClass.InsertGrant(NewGrant);
             TempData["SuccessMessage"] = "Grant has been created successfully!";
             return RedirectToPage("/dashboard");
         }

@@ -1,0 +1,27 @@
+﻿@page
+@model Lab1.Pages.CreateUser.ViewUsersModel
+@{
+}
+
+<h2>View Users</h2>
+<table class="table table-bordered table-responsive table-hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Password</th>
+			<th>Role</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var Users in Model.EmployeeInfo)
+		{
+			<tr>
+				<td>@Users.Name</td>
+				<td>@Users.Email</td>
+				<td>@Users.Password</td>
+				<td>@Users.Role</td>
+			</tr>
+		}
+	</tbody>
+</table>

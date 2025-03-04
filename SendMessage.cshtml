@@ -1,0 +1,20 @@
+﻿@page
+@model MessageTestModel
+@{
+    ViewData["Title"] = "MessageTest";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Messaging Center</h1>
+    <p>Send a message to a user</p>
+    <div id="chatPanel">
+        <div hx-ext="sse" sse-connect="/Index?handler=Sse">
+            <div id="chat-container" sse-swap="newMessage" hx-swap="beforeend"></div>
+        </div>
+        <form hx-post="/Index?handler=SendMessage" hx-swap="none">
+            @Html.AntiForgeryToken()
+            <input type="text" asp-for="NewMessage.Name" name="User" placeholder="Your name" required />
+            <input type="text" asp-for="NewMessage.ActualMessage" name="Message" placeholder="Your message" required />
+            <button type="submit">Send</button>
+        </form>
+    </div>
