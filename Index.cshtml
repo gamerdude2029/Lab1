@@ -1,28 +1,30 @@
 ﻿@page
-@model IndexModel
+@model Lab1.Pages.IndexModel
 @{
 }
 
-<table class="table table-bordered table-responsive table-hover">
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Category</th>
-			<th>Funding Agency</th>
-			<th>Status</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var grants in Model.GrantInfo)
-		{
-			<tr>
-				<td>@grants.Title</td>
-				<td>@grants.Category</td>
-				<td>@grants.FundingAgency</td>
-				<td>@grants.Status</td>
-			</tr>
-		}
-	</tbody>
-</table>
+<h2>Login</h2>
 
-<a asp-page="/GrantWork/LogAGrant" class="btn btn-outline-success">Log a Grant</a>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<form method="post">
+    <div>
+        <label>Email:</label>
+        <input type="email" asp-for="Email" class="form-control" />
+    </div>
+    <div>
+        <label>Password:</label>
+        <input type="password" asp-for="Password" class="form-control" />
+    </div>
+    <div>
+        <button type="Log In" class="btn btn-primary">Submit</button>
+    </div>
+</form>
